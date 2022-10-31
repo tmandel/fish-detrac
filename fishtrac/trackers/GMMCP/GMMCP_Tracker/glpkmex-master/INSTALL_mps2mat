@@ -1,0 +1,61 @@
+mps2mat.py was writen by Tommaso Balercia, and is used to reads the MPS format and creates the 
+vectors and the matrices needed by GLPKMEX,(for instance to play with the material at http://miplib.zib.de/ )
+
+GLPK comes with GLPSOL, a standalone solver that can directly attack access MPS files. 
+Now by the means of the script mps2mat.py written by Tommaso Balercia, GLPKMEX too can access the content of MPS 
+files. This script is based on PyGLPK 0.3. As is released, however, PyGLPK 0.3 is not capable of handling the 
+FreeMPS format. This is due to a bug and those who intend to use the script need to do the following 
+Currenlty this feature is only available in *nix environments.
+
+
+To install mps2mat.py you will need to do the following:
+
+1)      Make sure you've Numpy and Scipy installed.
+
+2)      Download PyGLPK 0.30.
+
+3)      Extract it wherever you prefer and enter into the selected folder.
+
+4)      Change line 137 of "src/lp.c"  from
+
+int failure = glp_read_mps(self->lp, GLP_MPS_FILE, NULL, mps_n);
+
+to
+
+int failure = glp_read_mps(self->lp, GLP_MPS_FILE, NULL, freemps_n);
+
+5)      If you intent to use a 64 bits machine, change line 74 of "Makefile" from
+
+cd glpk/glpk-$* ; ./configure --prefix=$(CURDIR)/locals/$* ; make -j 8 CFLAGS+=-m32 LDFLAGS=-m32 install
+
+                to
+
+cd glpk/glpk-$* ; ./configure --prefix=$(CURDIR)/locals/$* ; make -j 8 CFLAGS+=-m64 -fPIC LDFLAGS=-m64 -fPIC install
+
+                and line 74 of setup.py from
+
+define_macros = macros, extra_compile_args=['-m32'], extra_link_args=['-m32'],
+
+                to
+
+define_macros = macros,
+
+6)      Install using: $make; sudo make install; sudo python setup.py install
+
+7)      Use as follows: $python mps2mat.py file.mps
+
+ 
+
+Running the script mps2mat.py: 
+
+From MATLAB the imported problem can be solved using e.g. the following commands:
+
+> load file.mat;
+
+> sense = 1;
+
+> params.msglev = 3; % extensive info
+
+> x = glpk(c,A,b,lb,up,ctype,varitype,sense,params);
+
+ 

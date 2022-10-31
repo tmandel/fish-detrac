@@ -1,0 +1,392 @@
+./DETRAC-Train-Detections/R-CNN/
+Checking 1/1
+error: called from
+    checkResultFormat at line 36 column 13
+    detectionEvaluation at line 19 column 26
+error: struct cannot be indexed with {
+>> detectionEvaluation
+detectionEvaluation.m
+Checking 1/1
+error: called from
+    checkResultFormat at line 35 column 13
+    detectionEvaluation at line 19 column 26
+error: struct cannot be indexed with {
+>> 
+>> 
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 21 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+error: called from
+    detectionEvaluation at line 21 column 9
+error: Results must be 1 txt files!
+>> 
+>> 
+>> trackingEvaluation
+error: called from
+    trackingEvaluation at line 13 column 12
+error: 'parseFolderName' undefined near line 13 column 14
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 21 column 9
+error: Results must be 1 txt files!
+>> DETRAC_experiment
+************************************************************************************
+*              Welcome to the UA-DETRAC MOT Toolkit v1.1!                          *
+* This is the official detection/tracking evaluation kit for the DETection and     *
+* tRACking (DETRAC) Benchmark (http://detrac-db.rit.albany.edu/).                  *
+* More details can be found in the paper "UA-DETRAC: A New Benchmark and Protocol  *
+* for Multi-Object Detection and Tracking".                                        *
+*                 The UA-DETRAC Group @Copyright 2017                              *
+************************************************************************************
+Waring: If only one detection score threshold is selected, the DETRAC-MOT measure is not avalible. We should employ the CLEAR-MOT measure.
+{
+  [1,1] = MVI_41073_0
+}
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 21 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 22 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 22 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+{
+  [1,1] = MVI_41073_0
+}
+error: called from
+    detectionEvaluation at line 22 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+{
+  [1,1] = MVI_41073_0
+}
+error: called from
+    detectionEvaluation at line 22 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+{
+  [1,1] = MVI_41073_0
+}
+error: called from
+    detectionEvaluation at line 22 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> 
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> ../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+error: called from
+    detectionEvaluation at line 11 column 1
+error: 'createPath' undefined near line 11 column 1
+>> 
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+./DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  7x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+Checking 1/1
+{
+  [1,1] = MVI_41073_0
+}
+error: called from
+    evalexe at line 3 column 1
+    detectionEvaluation at line 33 column 9
+error: 'verLessThan' undefined near line 3 column 4
+>> detectionEvaluation
+detectionEvaluation.m
+C:\Users\NSF\Documents\repos\fish-detrac
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 25 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+C:\Users\NSF\Documents\repos\fish-detrac
+detectionEvaluation.m
+C:\Users\NSF\Documents\repos\fish-detrac
+./DETRAC-Train-Detections/R-CNN/
+./DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  7x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+Checking 1/1
+{
+  [1,1] = MVI_41073_0
+}
+error: called from
+    detectionEvaluation at line 41 column 13
+error: no detection results!
+>> 
+>> detectionEvaluation
+C:\Users\NSF\Documents\repos\fish-detrac\evaluation
+detectionEvaluation.m
+C:\Users\NSF\Documents\repos\fish-detrac
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 25 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+C:\Users\NSF\Documents\repos\fish-detrac
+detectionEvaluation.m
+C:\Users\NSF\Documents\repos\fish-detrac
+./DETRAC-Train-Detections/R-CNN/
+./DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  7x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+Checking 1/1
+{
+  [1,1] = MVI_41073_0
+}
+detprFile
+./DETRAC-Train-Detections/R-CNN/R-CNN_detection_PR.txt
+detprLine 
+./evaluation/AP_DET_EVAL.exe R-CNN ./DETRAC-Train-Detections/R-CNN/ C:\Users\NSF\Documents\repos\fish-detrac/sequences.txt ./DETRAC-Train-Detections/R-CNN/C:\Users\NSF\Documents\repos\fish-detrac
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 25 column 9
+    runEvaluation at line 16 column 1
+error: Results must be 1 txt files!
+>> DETRAC_experiment
+************************************************************************************
+*              Welcome to the UA-DETRAC MOT Toolkit v1.1!                          *
+* This is the official detection/tracking evaluation kit for the DETection and     *
+* tRACking (DETRAC) Benchmark (http://detrac-db.rit.albany.edu/).                  *
+* More details can be found in the paper "UA-DETRAC: A New Benchmark and Protocol  *
+* for Multi-Object Detection and Tracking".                                        *
+*                 The UA-DETRAC Group @Copyright 2017                              *
+************************************************************************************
+Waring: If only one detection score threshold is selected, the DETRAC-MOT measure is not avalible. We should employ the CLEAR-MOT measure.
+{
+  [1,1] = MVI_41073_0
+}

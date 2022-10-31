@@ -1,0 +1,219 @@
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+.../DETRAC-Train-Detections/R-CNN/
+.../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+detectionEvaluation.m
+./DETRAC-Train-Detections/R-CNN/
+./DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 23 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+parse error near line 21 of file C:\Users\NSF\Documents\repos\fish-detrac\evaluation\detectionEvaluation.m
+
+  syntax error
+
+>>>     [errorMsg, realList] = checkResultFormat(detPath detectorName '_detection_PR.txt', detectorName);
+                                                                    ^
+
+>> detectionEvaluation
+detectionEvaluation.m
+C:\Users\NSF\Documents\repos\fish-detrac\evaluation\display
+../DETRAC-Train-Detections/R-CNN/
+../DETRAC-Train-Detections/R-CNN/
+realList
+{
+  [1,1] = MVI_41073_0
+}
+resList
+  0x1 struct array containing the fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+    statinfo
+error: called from
+    detectionEvaluation at line 24 column 9
+error: Results must be 1 txt files!
+>> detectionEvaluation
+error: called from
+    detectionEvaluation at line 11 column 1
+error: 'curpath' undefined near line 11 column 6
+>> detectionEvaluation
+C:\Users\NSF\Documents\repos\fish-detrac\evaluation
+detectionEvaluation.m

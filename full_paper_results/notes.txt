@@ -1,0 +1,4 @@
+These spreadsheets contain the raw results used to generate the figures and tables in our paper. 
+A couple notes:
+* RCT is called KPD, as that is the name we used during development
+* Based on the comments of the reviweers on low FPS,  we optimized RCT in a way that did not affect the resulting tracks. That is why you will sometimes see low FPS for "KPD".  Sometimes we disginguish the optimized version by "KPD_OPT"

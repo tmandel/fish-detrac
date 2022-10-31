@@ -1,0 +1,492 @@
+'''A tracker that extends the two-stage graph-based tracking approach of
+Jiang et al. 2013 by unsing Features to model object appearance.
+
+See also:
+    Accurate 3D Multi-Marker Tracking in X-ray Cardiac Sequences Using a
+    Two-Stage Graph Modeling Approach
+'''
+
+import igraph
+import logging
+# import opc_detector
+# from .. import data_access
+import numpy as np
+import math
+# from .. import bboxes
+from os.path import join
+import ConfigParser
+from scipy import spatial
+
+__author__ = 'Jonas Jaeger'
+
+def euclidian_dist(box1, box2):
+    return math.sqrt((box2[0] - box1[0])**2 +\
+                     (box2[1] - box1[1])**2)
+
+class Constraints(object):
+    """Constraints for max difference of two detections which are connected in
+    graph.
+    """
+    def __init__(self, w_diff=0.1, h_diff=0.1, dist_euclid=list([0.1, 0.3])):
+        '''Set constraints.
+
+        Args:
+            w_diff: The maximum difference of the widths of two bboxes.
+                Value range (0...1)
+            h_diff: The maximum diffence of the heights of two bboxes.
+                Value range (0...1)
+            dist_euclid (list): SearchWindow/ maximum allowed distance in
+                euclidian space. Vaulue range (0...1). *dist_euclid[0]* for first
+                stage and *dist_euclid[1]* for second stage.
+
+        Returns:
+            "return_description"
+        '''
+        self.W_DIFF = w_diff
+        self.H_DIFF = h_diff
+        self.DIST_EUCLID = dist_euclid
+
+class Feat2StageAlg(object):
+    '''A tracker that extends the two-stage graph-based tracking approach of
+    Jiang et al. 2013 by unsing Features to model object appearance.
+
+    Run algorithm:
+        1. Create FeatNStageAlg object.
+        2. Call run method.
+    '''
+
+    def __init__(self, max_frame_skips=list([5,10]),
+                 penalty_values=list([100,100]),
+                 max_tracklet_counts=list([300,16]),
+                 edge_weight_threshold=100,
+                 constraints=Constraints(),
+                 w_temp=1.0,
+                 w_spat=1.0,
+                 w_app=1.0,
+                 config_file=None,
+                 app_dist_type='euclidian'):
+        '''Set algorithm parameters.
+
+        Args:
+            max_frame_skips: Maximum edge length to link object.
+                A list of max frame skips - one per stage.
+            penalty_values: Edge value to link to source and sink.
+                A list of penalty values - one per stage.
+            max_tracklet_counts: Maximum dijkstra iterations/number of
+                tracklets to create.
+                A list of max tracklet counts one element per stage.
+            edge_weight_threshold: The maximum edge weights the edge can have
+                to be created in the initial graph building.
+            constraints: An object of type Constraints, that holds
+                constraints that need to be satified by two connected
+                detections.
+            w_temp: Weight for temporal distance
+            w_spat: Weight for spatial distance
+            w_app: Weight for appearance. If w_app is equal to 0.0, then
+                Two-Stage-Graph algorithm will be applied.
+            config_file (str): A config file with parameters for this algorithm.
+            app_dist_type (str): Possible choices: 'euclidian', 'mahalanobis',
+                'manhattan'.
+        '''
+        self.MAX_FRAME_SKIPS = max_frame_skips
+        self.PENALTY_VALUES = penalty_values
+        self.MAX_TRACKLET_COUNTS = max_tracklet_counts
+        self.EDGE_WEIGHT_THRESHOLD = edge_weight_threshold
+        self.constraints = constraints
+        self.W_TEMP = w_temp
+        self.W_SPAT = w_spat
+        self.W_APP = w_app
+        self.APP_DIST_TYPE = app_dist_type
+        if config_file is not None:
+            self.read_config(config_file)
+
+    def read_config(self, file_path):
+        config = ConfigParser.RawConfigParser()
+        config.read(file_path)
+        try:
+            try:
+                raw_str = config.get("Feat2StageAlg", "max_frame_skips")
+                str_list = raw_str.replace(' ','').split(',')
+                self.MAX_FRAME_SKIPS = [int(x) for x in str_list]
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                raw_str = config.get("Feat2StageAlg", "penalty_values")
+                str_list = raw_str.replace(' ','').split(',')
+                self.PENALTY_VALUES = [int(x) for x in str_list]
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                raw_str = config.get("Feat2StageAlg", "max_tracklet_counts")
+                str_list = raw_str.replace(' ','').split(',')
+                self.MAX_TRACKLET_COUNTS = [int(x) for x in str_list]
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.EDGE_WEIGHT_THRESHOLD = config.getfloat("Feat2StageAlg",
+                                                             "edge_weight_threshold")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                raw_str = config.get("Feat2StageAlg", "dist_euclid")
+                str_list = raw_str.replace(' ','').split(',')
+                self.constraints.DIST_EUCLID = [float(x) for x in str_list]
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.constraints.W_DIFF = config.getfloat("Feat2StageAlg","w_diff")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.constraints.H_DIFF = config.getfloat("Feat2StageAlg","h_diff")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.W_TEMP = config.getfloat("Feat2StageAlg","w_temp")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.W_SPAT = config.getfloat("Feat2StageAlg","w_spat")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                self.W_APP = config.getfloat("Feat2StageAlg","w_app")
+            except ConfigParser.NoOptionError:
+                pass
+            try:
+                raw_str = config.get("Feat2StageAlg", "app_dist_type")
+                self.APP_DIST_TYPE = raw_str.lower()
+            except ConfigParser.NoOptionError:
+                pass
+        except ConfigParser.NoSectionError:
+            # It is ok to parse an config file that has no section for me.
+            pass
+
+    def run(self, bb_list, frame_n_list, X=None, debug=False, debug_path=None):
+        '''Run Feat2StageAlg.
+
+        Args:
+            bb_list: A list of bboxes in format
+                [(xc,yc,w,h), (xc,yc,w,h), ...]
+                xc,yc: The center of a bbox (relative to image).
+                w,h: width and hight of the bounding box (relative to image).
+            frame_n_list: A list with framenumbers, that will allow to
+                assign each bbox to a frame.
+                [framenumber, framenumber, ...]
+            X: An array that contains a feature vector in each row.
+                [[feat_vec1], [feat_vec2], ...]
+                Two-Stage Graph algorithm will be applied, if X is None.
+            debug: True if algorithm should run in debug mode.
+            debug_path: Path to folder to which debug output will be written.
+                If None, debug output will be written to local folder.
+
+
+        Returns:
+            A list of tracks in format:
+            [[framenumber,track_id,xc,yc,w,h],
+             [framenumber,...],
+             ...]
+             xc,yc: The center of a bbox (relative to image).
+             w,h: width and hight of the bounding box (relative to image).
+        '''
+        if X is None:
+            self.W_APP = 0.0
+        bb_graph = self.create_bb_graph(bb_list, frame_n_list, X)
+        if debug:
+            self.plot_bb_graph(bb_graph, debug_path)
+        t_graph = self.create_tracklet_graph(bb_graph, max(frame_n_list))
+        if debug:
+            self.plot_tracklet_graph(t_graph, bb_graph, debug_path)
+        vertex_tracks = self.extract_tracks(t_graph)
+        return self.v_to_bb_tracks(bb_graph, vertex_tracks)
+
+    def plot_bb_graph(self, bb_graph, outdir=None):
+        '''Visualize bb_graph and write it to pdf file.
+
+        Args:
+            bb_graph: Graph of bounding box detections.
+            outdir: Path to folder to write output file.
+        '''
+        if outdir is None:
+            outfile = "bb_graph.pdf"
+        else:
+            outfile = join(outdir, "bb_graph.pdf")
+
+        logging.info('Plott bb_graph to: %s', outfile)
+        logging.info('Vertex labels in plot are:')
+        logging.info('framenumber.bb_id_in_frame')
+        i = 0
+        old_frame = -1
+        for vertex in bb_graph.vs:
+            i += 1
+            if vertex['frame'] != old_frame:
+                old_frame = vertex['frame']
+                i = 0
+            vertex['label'] = "{}.{}".format(vertex['frame'], i)
+            # for all edges of this vertex get smalles
+            min_dist = 100000
+            for edge in bb_graph.es.select(_source_in=[vertex.index]):
+                if edge['dist'] < min_dist:
+                    min_dist = edge['dist']
+                    min_edge = edge
+            min_edge['color'] = '#a31a1c'
+        igraph.plot(bb_graph, outfile)
+
+    def plot_tracklet_graph(self, t_graph, bb_graph, outdir=None):
+        '''Visualize tracklet graph and write it to pdf file.
+
+        Args:
+            t_graph: Graph of tracklets.
+            bb_graph: Graph of bounding box detections.
+            outdir: Path to folder to write output file.
+        '''
+        if outdir is None:
+            outfile = "t_graph.pdf"
+        else:
+            outfile = join(outdir, "t_graph.pdf")
+
+        logging.info('Plott t_graph to: %s', outfile)
+        logging.info('Vertex labels in plot are:')
+        logging.info('framenumber.first_bb_index - framenumber.last_bb_index')
+        for vertex in t_graph.vs[1:-1]:
+            first_bb = bb_graph.vs[vertex['path'][1]]
+            last_bb = bb_graph.vs[vertex['path'][-2]]
+            vertex['label'] = "{}.{} - {}.{}".format(first_bb['frame'],
+                                                     first_bb.index,
+                                                     last_bb['frame'],
+                                                     last_bb.index)
+            # for all edges of this vertex get smalles
+            min_dist = 100000
+            for edge in t_graph.es.select(_source_in=[vertex.index]):
+                if edge['dist'] < min_dist:
+                    min_dist = edge['dist']
+                    min_edge = edge
+            min_edge['color'] = '#a31a1c'
+        igraph.plot(t_graph, outfile)
+
+    def v_to_bb_tracks(self, bb_graph, v_tracks):
+        bb_tracks = list()
+        for t_id, track in enumerate(v_tracks):
+            for bb_vertex in bb_graph.vs[track]:
+                bb_tracks.append([bb_vertex['frame'], t_id] + bb_vertex['bbox'])
+        return bb_tracks
+
+    def create_bb_graph(self, bbs, frames, X):
+        """Create bb_graph.
+
+        Args:
+            bbs: A list of bounding boxes in format
+                [(xc,yc,width,height), (xc,yc,w,h), ...]
+            frames: A list with framenumbers for each bbox.
+                [framenumber, framenumber, ...]
+            X: An array containing features for each bounding box in format
+                [[feat_vec1], [feat_vec2], ...]
+
+        Returns:
+            igraph.Graph with all bboxes.
+        """
+        logging.info('create bb_graph')
+        #Create bb_graph and add source as the vertex with the lowest index.
+        bb_graph = igraph.Graph(directed=True)
+        bb_graph.add_vertices(1)
+        source = bb_graph.vs[0]
+
+        #Add all bboxes to bb_graph.
+        old_vcount = bb_graph.vcount()
+        bb_count = len(bbs)
+        bb_graph.add_vertices(bb_count)
+        new_vs = bb_graph.vs.select(range(old_vcount, old_vcount+bb_count))
+        new_vs["bbox"] = bbs
+        new_vs["frame"] = frames
+        if self.W_APP > 0.0:
+            new_vs["feat"] = X
+
+        # Add sink as the vertex with the highest index
+        bb_graph.add_vertices(1)
+        sink = bb_graph.vs[old_vcount+bb_count]
+
+        frame_set = sorted(set(frames))
+        # For each frame
+        for n in frame_set:
+            # For each vertex in current frame
+            for v_n in bb_graph.vs.select(frame_eq=n):
+                # For all frames_n+m
+                for nm in range(n+1, max(frame_set)+1):
+                    if nm - n > self.MAX_FRAME_SKIPS[0]:
+                        break
+                    # For all detections in frame_n+m
+                    for v_nm in bb_graph.vs.select(frame_eq=nm):
+                        if self.within_constraints(v_n, v_nm, stage=0):
+                            distance = self.calc_dist(v_n, v_nm)
+                            bb_graph.add_edge(v_n.index, v_nm.index,
+                                              dist=distance)
+                # From source to vertex and from vertex to sink
+                bb_graph.add_edge(source.index, v_n.index,
+                                  dist=(n+1)*self.PENALTY_VALUES[0])
+                bb_graph.add_edge(v_n.index, sink.index,
+                                  dist=(max(frame_set)-n)*self.PENALTY_VALUES[0])
+        logging.debug('vertex count: %s', bb_graph.vcount())
+        logging.debug('edge count: %s', bb_graph.ecount())
+        logging.info('created bb_graph')
+        return bb_graph
+
+    def app_dist(self, v1, v2):
+        #Normalize feature vectors
+        normed_feat_n = v1 / np.linalg.norm(v1)
+        normed_feat_m = v2 / np.linalg.norm(v2)
+        if self.APP_DIST_TYPE == 'euclidian':
+            #L2 norm
+            return np.linalg.norm(normed_feat_m - normed_feat_n)
+        elif self.APP_DIST_TYPE == 'mahalanobis':
+            try:
+                X = np.vstack((v1, v2))
+                cov = np.cov(X.T)
+                icov = np.linalg.inv(cov)
+            except np.linalg.LinAlgError:
+                icov = cov
+            return spatial.distance.mahalanobis(v1, v2, icov)
+        elif self.APP_DIST_TYPE == 'manhattan':
+            return spatial.distance.cityblock(v1, v2)
+        else:
+            raise Exception('Unknow app_dist_type: {}'.format(self.APP_DIST_TYPE))
+
+    def calc_dist(self, v_n, v_m):
+        '''Calculate distance of two bbox detections
+
+        Args:
+            v_n: vertex in bbox graph.
+            v_nm: vertex in bbox graph.
+
+        Returns:
+            Distance between v_n and v_nm
+        '''
+        #temporal distance
+        d_temp = v_m["frame"] - v_n["frame"] - 1
+        #euclidian distance
+        d_spat = euclidian_dist(v_n['bbox'], v_m['bbox'])
+        #appearance distance
+        if self.W_APP > 0.0:
+            d_app = self.app_dist(v_n['feat'], v_m['feat'])
+        else:
+            d_app = 1.0 # Value doesn't matters -> Multiplication by Zero
+        distance = self.W_TEMP * d_temp + self.W_SPAT * d_spat + self.W_APP * d_app
+
+        return distance
+
+    def within_constraints(self, v_n, v_nm, stage=0):
+        '''Check if two detections are statifing constraints to be connected.
+
+        Args:
+            v_n: Vertex in frame n
+            v_nm: Vertex in frame n+m
+            stage (int): Stage in Two-Stage-Graph.
+                0 for tracklet extraction stage.
+                1 for for final track extraction stage.
+
+        Returns:
+            True if two detections are within constraints.
+        '''
+        if euclidian_dist(v_n['bbox'], v_nm['bbox']) > self.constraints.DIST_EUCLID[stage]:
+            return False
+        if self.constraints.W_DIFF is not None:
+            if v_nm['bbox'][2] - v_n['bbox'][2] > self.constraints.W_DIFF:
+                return False
+        if self.constraints.H_DIFF is not None:
+            if v_nm['bbox'][3] - v_n['bbox'][3] > self.constraints.H_DIFF:
+                return False
+        return True
+
+    def create_tracklet_graph(self, bb_graph, frame_count):
+        logging.info("create tracklet graph")
+        t_graph = igraph.Graph(directed=True)
+        # Add source to tracklet graph
+        t_graph.add_vertices(1)
+        t_source = t_graph.vs[0]
+        # Create tracklets
+        for i in xrange(self.MAX_TRACKLET_COUNTS[0]+1):
+            logging.debug("tracklet iteration: %s", i)
+            # Run dijkstra from bb_source to bb_sink
+            s_paths = bb_graph.get_shortest_paths(0, bb_graph.vcount()-1,
+                                                  weights='dist')
+            # if there is no path in graph
+            if bb_graph.es.select(_source_in=[s_paths[0][1]])[0]['dist'] == float('inf'):
+                logging.info("no more tracklets - iterations: %s", i)
+                break
+            # Create tracklet
+            for path in s_paths:
+                t_graph.add_vertices(1)
+                t_graph.vs[t_graph.vcount()-1]['path'] = path
+
+                # Set all outgoing edges to infinity
+                # Leave source and sink untouched
+                path = path[1:-1]
+                bb_edges = bb_graph.es.select(_source_in=path)
+                bb_edges['dist'] = float('inf')
+        # Add sink to tracklet graph
+        t_graph.add_vertices(1)
+
+        logging.debug('start linking tracklets')
+        t_graph = self.link_tracklets(bb_graph, t_graph, frame_count)
+        logging.debug('vertex count: %s', t_graph.vcount())
+        logging.debug('edge count: %s', t_graph.ecount())
+        logging.info('created t_graph')
+        return t_graph
+
+    def link_tracklets(self, bb_graph, t_graph, frame_count):
+        # For every tracklet but source and sink
+        for tn in t_graph.vs[1:-1]:
+            # Note: In a path first element tn['path'][0] is source and
+            # last element tn['path'][-1] is sink. But we want first and last
+            # bbox in tracklet:
+            tn_first_bb = bb_graph.vs[tn['path'][1]]
+            tn_last_bb = bb_graph.vs[tn['path'][-2]]
+            for tm in t_graph.vs[1:-1]:
+                if tm != tn:
+                    tm_first_bb = bb_graph.vs[tm['path'][1]]
+                    # Link only tracklets that are in temporal order
+                    if tn_last_bb['frame'] < tm_first_bb['frame'] and \
+                    (tm_first_bb['frame'] - tn_last_bb['frame'] < \
+                    self.MAX_FRAME_SKIPS[1]):
+                        if self.within_constraints(tn_last_bb, tm_first_bb, stage=1):
+                            distance = self.calc_dist(tn_last_bb, tm_first_bb)
+                            if distance < self.EDGE_WEIGHT_THRESHOLD:
+                                t_graph.add_edge(tn.index, tm.index, dist=distance)
+            # From source to tracklet
+            t_graph.add_edge(0, tn.index,
+                             dist=(tn_first_bb['frame']+1)* \
+                             self.PENALTY_VALUES[1])
+            # From tracklet to sink
+            t_graph.add_edge(tn.index, t_graph.vcount()-1,
+                             dist=(frame_count-tn_last_bb['frame'])* \
+                             self.PENALTY_VALUES[1])
+        return t_graph
+
+    def extract_tracks(self, t_graph):
+        logging.info("extract tracks")
+        tracks = list()
+        # Run dijkstra from bb_source to bb_sink
+        for i in xrange(self.MAX_TRACKLET_COUNTS[1]+1):
+            s_tpaths = t_graph.get_shortest_paths(0, t_graph.vcount()-1,
+                                                  weights='dist')
+            # if there is no tracklet path in graph
+            if t_graph.es.select(_source_in=[s_tpaths[0][1]])[0]['dist'] == float('inf'):
+                logging.info("no more tracks - iterations: %s", i)
+                break
+            for tpath in s_tpaths:
+                #tpath without source and sink
+                track_vs = t_graph.vs[tpath][1:-1]
+
+                # Set all outgoing edges to infinity
+                # Leave source and sink untouched
+                path = tpath[1:-1]
+                bb_edges = t_graph.es.select(_source_in=path)
+                bb_edges['dist'] = float('inf')
+
+                track = list()
+                for tracklet in track_vs:
+                    #bb_path without source and sink
+                    track += tracklet['path'][1:-1]
+                tracks.append(track)
+        return tracks
+
+

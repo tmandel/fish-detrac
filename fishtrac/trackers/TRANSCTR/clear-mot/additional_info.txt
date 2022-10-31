@@ -1,0 +1,2 @@
+missed,FP,idswitches,TP+FN,TP,Frames,gtTracks,MT,PT,ML,FRA,sumDists,thresh,timeout,failure
+100,0,1,367,267,71,7,4,0,3,1,50.96143687758571,0.8,0,0

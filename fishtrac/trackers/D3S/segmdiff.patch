@@ -1,0 +1,27 @@
+--- segm.py
++++ pytracking/tracker/segm/segm.py
+@@ -64,8 +64,8 @@
+ 
+             self.target_sz = torch.Tensor([state[3], state[2]])
+ 
+-            #if init_mask is not None:
+-            self.rotated_bbox = False
++            if init_mask is not None:
++                self.rotated_bbox = False
+ 
+         elif len(state) == 4:
+             state[0] -= 1
+@@ -357,11 +357,11 @@
+ 
+         if self.params.use_segmentation:
+             if pred_segm_region is not None:
+-                return ((flag != 'not found'), pred_segm_region)
++                return pred_segm_region
+ 
+         # Return new state
+         new_state = torch.cat((self.pos[[1, 0]] - (self.target_sz[[1, 0]] - 1) / 2, self.target_sz[[1, 0]]))
+-        return ((flag != 'not_found'), new_state.tolist())
++        return new_state.tolist()
+ 
+     def apply_filter(self, sample_x: TensorList):
+         return operation.conv2d(sample_x, self.filter, mode='same')

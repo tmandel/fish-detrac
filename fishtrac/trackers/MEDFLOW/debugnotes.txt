@@ -1,0 +1,18 @@
+inside box only (or small border around?)
+aspect ratio of box changed = maybe a new box came in???
+color creeping in wrong direction = explodes towards 130
+	trying with out updating color...  totally exploded
+	scale down thresh such that more inside than outside on both images
+		if unable, return cannot find fish
+		
+		
+**don't switch to new box if previously tracking with method and < 0.5 conf!!!!****
+	-- already done, should be sticking with new one (may need to change later)
+
+selected backup box, caused by  finding just one lone pixel
+	lone pixel causes totally unreasonable moves which is rejected (good)
+	rejected causes us to pick a backup box, loses track of center (bad)
+	
+when looking at past boxes, looked for one that is either:
+	(a) a color box
+	(b) > 0.5
