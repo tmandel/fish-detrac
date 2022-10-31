@@ -2,7 +2,7 @@
 
 <img src="./intro_gif.gif" width=533 height=300>
 
-Welcome to the FISHTRAC codebase! This includes a harness for comparing 17 MOT algorithms of a variety of types on three datasets, links to our new real-world fish tracking dataset, code for our new MOT algorithm that works well in domains like fish tracking where detection is imperfect, and the ability to easily run trackers on  new datasets or detections.  
+Welcome to the FISHTRAC codebase! This includes a harness for comparing 17 MOT algorithms on three datasets, links to our new real-world fish tracking dataset, and the ability to easily run trackers on  new datasets or detections.   It also includes code for our new MOT algorithm (RCT aka KPD) that works well in domains like fish tracking where detection is imperfect, and the ability to easily run trackers on  new datasets or detections.  
 
 If you use this codebase (or any part of it, such as the RCT tracker), please cite the following associated publication:
 
