@@ -1,6 +1,6 @@
 #  Welcome to the FISHTRAC codebase (and dataset)
 
-<img src="./intro_gif.gif" width=533 height=300>
+<img src="./intro_gif.gif" height=480>
 
 Welcome to the FISHTRAC codebase! This includes a harness for comparing 17 MOT algorithms of a variety of types on three datasets, links to our new real-world fish tracking dataset, code for our new MOT algorithm that works well in domains like fish tracking where detection is imperfect, and the ability to easily run trackers on  new datasets or detections.  
 
@@ -63,7 +63,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 5. Download [fishtrac-extras.zip](https://web.datadrivengame.science/fishtrac/fishtrac-extras.zip) and place it in the outer fish-detrac directory (this contains large files that are too big to place in the repo).
 6. cd into the fish-detrac directory and run `./setupFiles.sh` to create the necessary directories and conda environments, as well as download and setup the D3S tracker
 7. Follow the instructions printed at the end of `setupFiles.sh` to install the necessary Octave packages.
-8. Download your dataset(s) of choice and unzip it **into the fishtrac folder**.  Our tutorial below will use FISHTRAC train, but the process is similar for the other choices.
+
+# Running trackers on datasets
+
+1. Download your dataset(s) of choice and unzip it **into the fishtrac folder**.  Our tutorial below will use FISHTRAC train, but the process is similar for the other choices.
 
 **Note: By downloading and using FISHTRAC data, you hereby agree not to use  not use FISHTRAC data for harmful/unethical purposes, for instance better killing, harvesting, harming, or exploiting fish populations.  FISHTRAC is meant to aid conservation of fish and non-invasive studies of fish behavior.**
 
@@ -74,7 +77,8 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 * [UA-DETRAC](https://detrac-db.rit.albany.edu/download) - You will want to download the *images and MAT annotations only*, and place them in their respective folders (`DETRAC-images` and `DETRAC-Train-Annotations-MAT`).  The detections we created using the imperfect detector found in the paper can be found [here](https://web.datadrivengame.science/fishtrac/DETRAC-Detections.zip) and can be placed in the `DETRAC-Train-Detections/R-CNN` folder.
 * Or your own custom dataset (see instructions below)
 
-9. Choose the sequence file that matches your dataset our interest:
+
+2. Choose the sequence file that matches your dataset our interest:
 
 We provide several sequence files in `fishtrac/evaluation/seqs`:
 * `fishtrac-train` : This contains the full 3-video trainset for our FISHTRAC dataset. As explained in the paper, the trainset is intentionally kept small to determine how to build effective MOT systems when data is scarce.
@@ -89,7 +93,7 @@ We provide several sequence files in `fishtrac/evaluation/seqs`:
 * With your own dataset, you will need to create your own sequence file in `fishtrac/evaluation/seqs` with the names of the videos you want to run on.
 
 
-10. To run trackers, we can use experiment wrapper.  Experiment wrapper lets you specify the tracker, the detection confidence threshold, and the sequence file name (see step 9).  It will automatically record MOTA and HOTA metrics and time out the trackers if they have not completed in 30 minutes.  As an example, we will run GOG and RCT (called KPD in the code).  We run GOG with a 0.3 threshold on detection confidence because that is what we found to perform best on our train data; the threshold for RCT is arbitrary: it does not use the threshold as it consumes unfiltered detections.
+3. To run trackers, we can use experiment wrapper.  Experiment wrapper lets you specify the tracker, the detection confidence threshold, and the sequence file name (see step 9).  It will automatically record MOTA and HOTA metrics and time out the trackers if they have not completed in 30 minutes.  As an example, we will run GOG and RCT (called KPD in the code).  We run GOG with a 0.3 threshold on detection confidence because that is what we found to perform best on our train data; the threshold for RCT is arbitrary: it does not use the threshold as it consumes unfiltered detections.
 ```
     cd fishtrac
     conda activate fish_env
@@ -113,7 +117,7 @@ We provide several sequence files in `fishtrac/evaluation/seqs`:
     
 	Pasting the displayed info into a spreadsheet program will show that RCT (KPD) has a much better HOTA and MOTA than GOG on the FISHTRAC train videos.  In fact, they should be essentially the same results as we provided for "Fish Vids" in the provided `full_paper_results/Train_results.xlsx` spreadsheet that we based our paper results on (along with `full_paper_results/Test_results.xlsx`).
 
-12. However, it is also useful to see qualitative performance (that is, what the trackers actually look like in action!).  Thankfully, we also provide scripts for that. Here is an example of visualizing the methods on one of the three videos:
+4. However, it is also useful to see qualitative performance (that is, what the trackers actually look like in action!).  Thankfully, we also provide scripts for that. Here is an example of visualizing the methods on one of the three videos:
 
 ```
 	cd ../convert_gt
