@@ -1,6 +1,6 @@
 #  Welcome to the FISHTRAC codebase (and dataset)
 
-<img src="./intro_gif.gif" height=480>
+<img src="./intro_gif.gif" width=533 height=300>
 
 Welcome to the FISHTRAC codebase! This includes a harness for comparing 17 MOT algorithms of a variety of types on three datasets, links to our new real-world fish tracking dataset, code for our new MOT algorithm that works well in domains like fish tracking where detection is imperfect, and the ability to easily run trackers on  new datasets or detections.  
 
