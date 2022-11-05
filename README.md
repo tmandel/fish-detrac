@@ -113,9 +113,9 @@ We provide several sequence files in `fishtrac/evaluation/seqs`:
 	python benchmark_evaluation.py fishtrac-train GOG,KPD train
 	cat benchmark_results.csv
 ```
-    *Note : the train argument means we will run over all detection confidence thresholds that have been run to determine the best and store it off in a file in `fishtrac/results/best_thresholds/`. If we were to specify test instead of train, it would read and used the stored threshold rather than searching for the best.*
+*Note : the train argument means we will run over all detection confidence thresholds that have been run to determine the best and store it off in a file in `fishtrac/results/best_thresholds/`. If we were to specify test instead of train, it would read and used the stored threshold rather than searching for the best.*
     
-	Pasting the displayed info into a spreadsheet program will show that RCT (KPD) has a much better HOTA and MOTA than GOG on the FISHTRAC train videos.  In fact, they should be essentially the same results as we provided for "Fish Vids" in the provided `full_paper_results/Train_results.xlsx` spreadsheet that we based our paper results on (along with `full_paper_results/Test_results.xlsx`).
+Pasting the displayed info into a spreadsheet program will show that RCT (KPD) has a much better HOTA and MOTA than GOG on the FISHTRAC train videos.  In fact, they should be essentially the same results as we provided for "Fish Vids" in the provided `full_paper_results/Train_results.xlsx` spreadsheet that we based our paper results on (along with `full_paper_results/Test_results.xlsx`).
 
 4. However, it is also useful to see qualitative performance (that is, what the trackers actually look like in action!).  Thankfully, we also provide scripts for that. Here is an example of visualizing the methods on one of the three videos:
 
