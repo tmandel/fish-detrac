@@ -97,15 +97,15 @@ We provide several sequence files in `fishtrac/evaluation/seqs`:
 ```
     cd fishtrac
     conda activate fish_env
-	python experiment_wrapper.py GOG 0.3 fishtrac-train octave-cli
-	python experiment_wrapper.py KPD 0.5 fishtrac-train octave-cli
+    python experiment_wrapper.py GOG 0.3 fishtrac-train octave-cli
+    python experiment_wrapper.py KPD 0.5 fishtrac-train octave-cli
 ```
 
-	Note that you might need to replace `octave-cli` part if you have a different way of running octave (e.g. a custom compiled version, etc.)  If it succeeded, you should see a relatively short output and a message like: 
+Note that you might need to replace `octave-cli` part if you have a different way of running octave (e.g. a custom compiled version, etc.)  If it succeeded, you should see a relatively short output and a message like: 
 
 	`run tracker command returned: 0`
 
-	otherwise, there may have been some error in the installation process.
+otherwise, there may have been some error in the installation process.
 
 11. Next, we will take a look at some of the scores:
 ```
