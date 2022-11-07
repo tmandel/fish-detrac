@@ -9,12 +9,13 @@ If you use this codebase (or any part of it, such as the RCT tracker), please ci
 [Detection Confidence Driven Multi-Object Tracking to Recover Reliable Tracks From Unreliable Detections](https://www.sciencedirect.com/science/article/pii/S0031320322005878)
 
 ```
-@article{mandel2022detection,
-title = {Detection Confidence Driven Multi-Object Tracking to Recover Reliable Tracks From Unreliable Detections},
+@article{mandel2023detection,
+title = {Detection confidence driven multi-object tracking to recover reliable tracks from unreliable detections},
 author = {Travis Mandel and Mark Jimenez and Emily Risley and Taishi Nammoto and Rebekka Williams and Max Panoff and Meynard Ballesteros and Bobbie Suarez},
 journal = {Pattern Recognition},
-year = {2022},
+volume = {135},
 pages = {109107},
+year = {2023},
 issn = {0031-3203},
 doi = {https://doi.org/10.1016/j.patcog.2022.109107},
 url = {https://www.sciencedirect.com/science/article/pii/S0031320322005878}
@@ -36,6 +37,10 @@ Our test harness is a heavily modified and extended version of the [UA-DETRAC](h
 * Includes both HOTA and MOTA metrics
 * One of the only datasets to release deep object detections that are completely unfiltered by detection confidence - allowing for approaches like RCT that make use of this value.
 * Tools provided to visualize results
+
+## Acknowledgement
+
+In addition to the acknowledgements listed in the paper, the technical support and advanced computing resources from University of Hawaii Information Technology Services – Cyberinfrastructure, funded in part by the National Science Foundation MRI award # 1920304, are gratefully acknowledged.
 
 
 
