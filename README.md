@@ -24,7 +24,7 @@ url = {https://www.sciencedirect.com/science/article/pii/S0031320322005878}
 
 
 
-Our test harness is a heavily modified and extended version of the [UA-DETRAC](https://detrac-db.rit.albany.edu/download) toolkit.
+Our test harness is a heavily modified and extended version of the [UA-DETRAC](https://wayback.archive-it.org/org-652/20231112212640/https://detrac-db.rit.albany.edu/download) toolkit.
 
 **There are a lot of MOT codebases out there.  Why consider using ours?**
 * Completely built off of free and open-source technologies  - no need to purchase MATLAB or run on Windows (it's meant for Linux!)
@@ -79,7 +79,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 * FishTrac Test Data [Link coming soon!] (Please follow good test set discipline, do not examine results on the test set until the end of your project)
 * [MOT17-reformatted](https://web.datadrivengame.science/fishtrac/MOT17-reformatted.zip) This is the [MOT17](https://motchallenge.net/data/MOT17/) train set converted to DETRAC format with included detections from our custom low-performance detector. MOT17 is one of the most popular sources of pedestrian video.  In the paper we used this as a "generalization test" since we did not examine this while developing our algorithm, and unfortunately the M0T17 test set annotations are not pubically available.  
 <sub><sup>This data is licensed CC BY-NC-SA 3.0 by the authors of the following paper:  	Milan, A., Leal-Taixé, L., Reid, I., Roth, S. & Schindler, K. MOT16: A Benchmark for Multi-Object Tracking. arXiv:1603.00831 [cs], 2016., (arXiv: 1603.00831).  Our modifications are licensed the same way.</sup></sub>
-* [UA-DETRAC](https://detrac-db.rit.albany.edu/download) - You will want to download the *images and MAT annotations only*, and place them in their respective folders (`DETRAC-images` and `DETRAC-Train-Annotations-MAT`).  The detections we created using the imperfect detector found in the paper can be found [here](https://web.datadrivengame.science/fishtrac/DETRAC-Detections.zip) and can be placed in the `DETRAC-Train-Detections/R-CNN` folder.
+* [UA-DETRAC](https://wayback.archive-it.org/org-652/20231112212640/https://detrac-db.rit.albany.edu/download) - You will want to download the *images and [MAT annotations](https://web.datadrivengame.science/fishtrac/DETRAC-Train-Annotations-MAT.zip) only*, and place them in their respective folders (`DETRAC-images` and `DETRAC-Train-Annotations-MAT`).  The detections we created using the imperfect detector found in the paper can be found [here](https://web.datadrivengame.science/fishtrac/DETRAC-Detections.zip) and can be placed in the `DETRAC-Train-Detections/R-CNN` folder.
 * Or your own custom dataset (see instructions below)
 
 
