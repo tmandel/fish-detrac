@@ -957,13 +957,13 @@ def addForwardBox(curBest, lastFrame, detections, colorBoxes, chosenBoxes,  obsS
 		if tracker is None and curBest['maxBox'] is not None:
 			#print("Forward at confSeq", confSeq[-1])
 			#tracker.init(frameImages[lastFrame-1], shrinkBox(curBest['maxBox'], frameWidth, frameHeight))
-			tracker = cv2.TrackerMedianFlow_create()
+			tracker = cv2.legacy.TrackerMedianFlow_create()
 			if SCALE_MEDFLOW:
 				curBest['maxBox'] = scaleBox(curBest['maxBox'], frameWidth, frameHeight, 'down')
 			tracker.init(frameImages[lastFrame], curBest['maxBox'])
 		elif curBest['maxProbDetect'] > 0.5:
 			# print("forward reinit", lastFrame)
-			tracker = cv2.TrackerMedianFlow_create()
+			tracker = cv2.legacy.TrackerMedianFlow_create()
 			if SCALE_MEDFLOW:
 				curBest['maxBox'] = scaleBox(curBest['maxBox'], frameWidth, frameHeight, 'down')
 			tracker.init(frameImages[lastFrame], curBest['maxBox'])
@@ -995,13 +995,13 @@ def addBackwardBox(curBest, firstFrame, detections, colorBoxes, chosenBoxes, obs
 	if (not ABLATE_NO_MEDFLOW_SWITCH) or (not ABLATE_NO_MEDFLOW_REPLACE):
 		if tracker is None and curBest['maxBox'] is not None:
 			#print("Back at confSeq", confSeq[0])
-			tracker = cv2.TrackerMedianFlow_create()
+			tracker = cv2.legacy.TrackerMedianFlow_create()
 			if SCALE_MEDFLOW:
 				curBest['maxBox'] = scaleBox(curBest['maxBox'], frameWidth, frameHeight, 'down')
 			tracker.init(frameImages[firstFrame-2], curBest['maxBox'])
 		elif curBest['maxProbDetect'] > 0.5:
 			#print("back reinit", firstFrame)
-			tracker = cv2.TrackerMedianFlow_create()
+			tracker = cv2.legacy.TrackerMedianFlow_create()
 			if SCALE_MEDFLOW:
 				curBest['maxBox'] = scaleBox(curBest['maxBox'], frameWidth, frameHeight, 'down')
 			tracker.init(frameImages[firstFrame-2], curBest['maxBox'])
@@ -1023,7 +1023,7 @@ def createTrackerWithHistory(imageList, startBox, images, frameWidth, frameHeigh
 	for i in range(len(imageList)):
 		if (not ABLATE_NO_MEDFLOW_SWITCH) or (not ABLATE_NO_MEDFLOW_REPLACE):
 			if tracker is None:
-				tracker = cv2.TrackerMedianFlow_create()
+				tracker = cv2.legacy.TrackerMedianFlow_create()
 				if SCALE_MEDFLOW:
 					startBox = scaleBox(startBox, frameWidth, frameHeight, 'down')
 				tracker.init(images[imageList[i]], startBox)

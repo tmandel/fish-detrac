@@ -5,7 +5,7 @@ import cv2
 #from keras_retinanet import models
 import matplotlib.pyplot as plt
 #from keras_retinanet.utils.image import read_image_bgr, preprocess_image, resize_image
-from keras_retinanet.utils.visualization import draw_box, draw_caption
+from retinanet.keras_retinanet.utils.visualization import draw_box, draw_caption
 #from keras_retinanet.utils.colors import label_color
 import os, sys
 from os.path import isfile, join

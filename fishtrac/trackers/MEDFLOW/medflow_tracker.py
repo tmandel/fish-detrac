@@ -93,13 +93,13 @@ def getNewBoxColorTracker( newImage, frameIndex, tracker, frameWidth, frameHeigh
 	
 def initExternalTracker( startFrameIndex, startImage, startBox):
 	#Instantiate MEDIANFLOW tracker
-	#forwardTracker = cv2.legacy.TrackerMedianFlow_create() 
-	forwardTracker = cv2.TrackerMedianFlow_create() 
+	forwardTracker = cv2.legacy.TrackerMedianFlow_create() 
+	#forwardTracker = cv2.TrackerMedianFlow_create() 
 	possibleFor = forwardTracker.init(startImage, startBox)
 	if not possibleFor:
 		print('Line 1498, cv.tracker.init failed')
-	#backwardTracker = cv2.legacy.TrackerMedianFlow_create()
-	backwardTracker = cv2.TrackerMedianFlow_create()
+	backwardTracker = cv2.legacy.TrackerMedianFlow_create()
+	#backwardTracker = cv2.TrackerMedianFlow_create()
 	possibleBack=backwardTracker.init(startImage, startBox)
 	if not possibleBack:
 		print('Line 1498, cv.tracker.init failed')
